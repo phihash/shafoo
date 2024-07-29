@@ -29,8 +29,9 @@ export default function Home() {
     <>
         {posts.map((post, index) => (
           <>
-          <span className="text-sm">{post.text}</span>
-          <p className="text-lg" key={index}>{post.username}</p>
+          <span className="text-xl" key={index}>{post.username}さん</span>
+          <p className="text-base">{post.text}</p>
+          <hr />
           </>
         ))}
       </>
