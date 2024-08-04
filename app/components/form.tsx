@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { noto_sans_jp } from "../fonts";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc ,Timestamp} from "firebase/firestore";
 
 // eslint-disable-next-line react/display-name
 const Form = () => {
@@ -21,7 +21,7 @@ const Form = () => {
       await addDoc(collection(db, "posts"), {
         username,
         text,
-        createdAt: new Date(),
+        createdAt: Timestamp.fromDate(new Date())
       });
       setUsername("");
       setText("");
