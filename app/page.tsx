@@ -3,6 +3,7 @@ import Form from "./components/form";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase"; // 適切なパスに変更
+import { fredoka} from "./fonts";
 
 export default function Home() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -43,18 +44,18 @@ export default function Home() {
   }
   return (
     <>
-    <h1 className="text-4xl">Shafoo</h1>
-    <Form></Form>
-    <>
+    <h1 className={`text-4xl text-center ${fredoka} py-12`}>Shafoo</h1>
+    <Form setPosts={setPosts} />
+    <div className="w-11/12 md:w-11/12 mx-auto pt-16">
         {posts.map((post, index) => (
-          <>
-          <p className="text-base">{formatDate(post.createdAt).toString()}</p>
-          <span className="text-xl" key={index}>{post.username}さん</span>
-          <p className="text-base">{post.text}</p>
+          <div className="my-4">
+          <p className="text-base"> {index+1}. {formatDate(post.createdAt).toString()}</p>
+          <span className="text-base block py-2" key={index}>名前：{post.username}さん</span>
+          <p className="text-lg pb-4">{post.text}</p>
           <hr />
-          </>
+          </div>
         ))}
-      </>
+      </div>
     </>
   );
 }

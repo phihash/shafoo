@@ -4,17 +4,21 @@ import { noto_sans_jp } from "../fonts";
 import { db } from "../firebase";
 import { collection, addDoc ,Timestamp} from "firebase/firestore";
 
+interface FormProps {
+  setPosts: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
 // eslint-disable-next-line react/display-name
-const Form = () => {
+const Form: React.FC<FormProps> = ({ setPosts }) => {
   const [username, setUsername] = useState("");
   const [text, setText] = useState("");
 
-  const  handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // ここでフォームのデータを送信する処理を追加
     if (text.trim() === "" || username.trim() === "") {
       // テキストが空の場合は投稿しない
-      alert("投稿内容が空です")
+      alert("投稿内容が空です");
       return;
     }
     try {
@@ -34,16 +38,24 @@ const Form = () => {
     console.log("Text:", text);
     setUsername("");
     setText("");
+    console.log("Document successfully written!");
+    // 新しい投稿を追加
+    setPosts((prevPosts: any[]) => [
+      ...prevPosts,
+      {
+        username,
+        text,
+        createdAt: new Date()
+      }
+    ]);
   };
 
-    return (
-      <form  onSubmit={handleSubmit}  className={noto_sans_jp.className}>
-      <h2 className="text-xl text-center">
-        フォーム
-      </h2>
+  return (
+    <form onSubmit={handleSubmit} className={noto_sans_jp.className}>
+      <h2 className="text-xl text-center">フォーム</h2>
       <div>
         <input
-          className="block w-1/3 mx-auto mt-6 p-4 border outline-slate-600"
+          className="block w-3/4 md:w-1/3 mx-auto mt-6 p-4 border outline-slate-600"
           type="text"
           id="username"
           name="username"
@@ -55,7 +67,7 @@ const Form = () => {
       </div>
       <div>
         <textarea
-          className="block w-1/3 mx-auto my-8 p-4 border outline-slate-600"
+          className="block w-3/4 md:w-1/3 mx-auto my-8 p-4 border outline-slate-600"
           id="text"
           name="text"
           value={text}
@@ -70,11 +82,14 @@ const Form = () => {
           required
         ></textarea>
       </div>
-      <button className="block mx-auto border outline-slate-600 p-4" type="submit">投稿</button>
+      <button className="block mx-auto border outline-slate-600 p-4" type="submit">
+        投稿
+      </button>
     </form>
-    );
- };
-
-
+  );
+};
 
 export default Form;
+
+
+
